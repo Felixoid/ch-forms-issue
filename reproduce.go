@@ -62,6 +62,7 @@ func main() {
 	url.RawQuery = q.Encode()
 	postBody, contentHeader, err := buildBody(*lines, url)
 	req, err := http.NewRequest("POST", url.String(), postBody)
+	req.Header.Add("User-Agent", "Graphite-Clickhouse/0.12.0 (table:graphite.data)")
 	req.Header.Add("Content-Type", contentHeader)
 	req.Header.Add("Content-Encoding", "gzip")
 	rawRequest, err := httputil.DumpRequestOut(req, true)
