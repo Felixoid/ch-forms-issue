@@ -1,0 +1,24 @@
+<yandex>
+    <openSSL>
+        <server>
+            <certificateFile>/etc/clickhouse-server/config.d/server.crt</certificateFile>
+            <privateKeyFile>/etc/clickhouse-server/config.d/server.key</privateKeyFile>
+            <dhParamsFile>/etc/clickhouse-server/config.d/dhparam.pem</dhParamsFile>
+            <verificationMode>none</verificationMode>
+            <loadDefaultCAFile>true</loadDefaultCAFile>
+            <cacheSessions>true</cacheSessions>
+            <cipherList>ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:CDH+AES128:DH+AES:!aNULL:!MD5:!DSS</cipherList>
+            <disableProtocols>sslv2,sslv3,TLSv1,TLSv1.1</disableProtocols>
+            <requireTLSv1_2>true</requireTLSv1_2>
+        </server>
+        <client>
+            <verificationMode>none</verificationMode>
+            <invalidCertificateHandler>
+                <name>AcceptCertificateHandler</name>
+            </invalidCertificateHandler>
+        </client>
+    </openSSL>
+    <https_port>8443</https_port>
+    <interserver_https_port>9010</interserver_https_port>
+    <interserver_http_port remove="1"/>
+</yandex>
