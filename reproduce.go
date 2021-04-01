@@ -76,10 +76,6 @@ func main() {
 	}
 	req.Header.Add("Content-Type", contentHeader)
 	req.Header.Add("Content-Encoding", "gzip")
-	rawRequest, err := httputil.DumpRequestOut(req, true)
-	if err == nil {
-		fmt.Print(string(rawRequest))
-	}
 	client := &http.Client{
 		Timeout: time.Second * 50,
 		Transport: &http.Transport{
@@ -89,6 +85,10 @@ func main() {
 			DisableKeepAlives: true,
 			TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
 		},
+	}
+	rawRequest, err := httputil.DumpRequestOut(req, true)
+	if err == nil {
+		fmt.Print(string(rawRequest))
 	}
 	resp, err := client.Do(req)
 	if err != nil {
