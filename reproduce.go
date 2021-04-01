@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"mime/multipart"
 	"net"
 	"net/http"
@@ -92,7 +93,15 @@ func main() {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
+		fmt.Print(err)
 		return
 	}
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
+	respBody := string(bodyBytes)
+	fmt.Print(respBody)
 	fmt.Print(resp)
 }
