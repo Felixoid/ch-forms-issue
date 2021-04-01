@@ -3,6 +3,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"mime/multipart"
@@ -76,6 +77,7 @@ func main() {
 				Timeout: time.Second * 3,
 			}).Dial,
 			DisableKeepAlives: true,
+			TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
 		},
 	}
 	resp, err := client.Do(req)
