@@ -53,6 +53,7 @@ func buildBody(lines int, u *url.URL) (*bytes.Buffer, string, error) {
 func main() {
 	dsn := flag.String("url", "https://localhost:8443", "url to make request")
 	lines := flag.Int("lines", 40, "number of lines 'some pretty long line to fill the post' in request")
+	withAgent := flag.Bool("agent", false, "if set, custom agent will be used")
 	flag.Parse()
 	url, err := url.Parse(*dsn)
 	if err != nil {
@@ -63,7 +64,9 @@ func main() {
 	url.RawQuery = q.Encode()
 	postBody, contentHeader, err := buildBody(*lines, url)
 	req, err := http.NewRequest("POST", url.String(), postBody)
-	req.Header.Add("User-Agent", "Graphite-Clickhouse/0.12.0 (table:graphite.data)")
+	if *withAgent {
+		req.Header.Add("User-Agent", "Graphite-Clickhouse/0.12.0 (table:graphite.data)")
+	}
 	req.Header.Add("Content-Type", contentHeader)
 	req.Header.Add("Content-Encoding", "gzip")
 	rawRequest, err := httputil.DumpRequestOut(req, true)
