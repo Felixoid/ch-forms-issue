@@ -60,7 +60,14 @@ func main() {
 		return
 	}
 	q := url.Query()
-	q.Set("query", "SELECT Path, arrayFilter(x->isNotNull(x), anyOrNullResample(1615852800, 1617235199, 86400)(toUInt32(intDiv(Time, 86400)*86400), Time)), arrayFilter(x->isNotNull(x), avgOrNullResample(1615852800, 1617235199, 86400)(Value, Time)) FROM graphite.data PREWHERE Date >='2021-03-16' AND Date <= '2021-04-01' WHERE (Path in metrics_list) AND (Time >= 1615852800 AND Time <= 1617235199) GROUP BY Path FORMAT TSV")
+	q.Set("query", `SELECT
+          Path,
+          arrayFilter(x->isNotNull(x), anyOrNullResample(1615852800, 1617235199, 86400)(toUInt32(intDiv(Time, 86400)*86400), Time)),
+          arrayFilter(x->isNotNull(x), avgOrNullResample(1615852800, 1617235199, 86400)(Value, Time))
+        FROM default.test
+        PREWHERE Date >='2021-03-16' AND Date <= '2021-04-01'
+        WHERE (Path in metrics_list) AND (Time >= 1615852800 AND Time <= 1617235199)
+        GROUP BY Path FORMAT TSV`)
 	url.RawQuery = q.Encode()
 	postBody, contentHeader, err := buildBody(*lines, url)
 	req, err := http.NewRequest("POST", url.String(), postBody)
