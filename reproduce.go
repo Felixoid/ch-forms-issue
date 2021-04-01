@@ -5,8 +5,8 @@ import (
 	"bytes"
 	"crypto/tls"
 	"flag"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"net"
 	"net/http"
@@ -89,19 +89,20 @@ func main() {
 	}
 	rawRequest, err := httputil.DumpRequestOut(req, true)
 	if err == nil {
-		fmt.Print(string(rawRequest))
+		log.Print(":\n" + string(rawRequest))
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Print(err)
-		return
+		log.Fatal(err)
 	}
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Print(err)
-		return
+		log.Fatal(err)
 	}
 	respBody := string(bodyBytes)
-	fmt.Print(respBody)
-	fmt.Print(resp)
+	log.Print(respBody)
+	log.Print(resp)
+	if resp.StatusCode != 200 {
+		log.Fatalf("Non 200 code: %v", resp.StatusCode)
+	}
 }
