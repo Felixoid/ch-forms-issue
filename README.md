@@ -1,5 +1,12 @@
 # Issue reproduction
 
+This repo is related to ClickHouse issues:
+
+- https://github.com/ClickHouse/ClickHouse/issues/22433
+- https://github.com/ClickHouse/ClickHouse/issues/21953
+- https://github.com/ClickHouse/ClickHouse/issues/21953
+- https://github.com/lomik/graphite-clickhouse/issues/135
+
 ```
 # run docker in one console
 docker run --rm --net=host --name=clickhouse -v $(pwd)/schemes:/docker-entrypoint-initdb.d -v $(pwd)/configs/:/etc/clickhouse-server/config.d yandex/clickhouse-server:21.3.4
