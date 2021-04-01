@@ -14,13 +14,16 @@ docker run --rm --net=host --name=clickhouse -v $(pwd)/schemes:/docker-entrypoin
 # Make requests from another
 # works
 go run .
-# works
+# All following with TLS/SSL if another is not mentioned
+# works: auth
 go run . -url "https://default@localhost:8443/" -lines 1
-# works
+# works: auth+agent
 go run . -url "https://default@localhost:8443/" -lines 1 -agent
-# works
+# works: agent+cancel_http_readonly_queries_on_client_close
 go run . -url "https://localhost:8443/?cancel_http_readonly_queries_on_client_close=1" -lines 1 -agent
-# broken
+# works: agent+cancel_http_readonly_queries_on_client_close+http
+go run . -url "http://default@localhost:8123/?cancel_http_readonly_queries_on_client_close=1" -lines 1 -agent
+# broken: agent + cancel_http_readonly_queries_on_client_close + HTTPS + auth
 go run . -url "https://default@localhost:8443/?cancel_http_readonly_queries_on_client_close=1" -lines 1 -agent
 ```
 
