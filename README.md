@@ -16,3 +16,5 @@ go run . -url "https://localhost:8443/?cancel_http_readonly_queries_on_client_cl
 # broken
 go run . -url "https://default@localhost:8443/?cancel_http_readonly_queries_on_client_close=1" -lines 1 -agent
 ```
+
+It works with `yandex/clickhouse-server:20.8` image.
